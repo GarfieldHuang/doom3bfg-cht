@@ -23,6 +23,8 @@
 python tools/build.py --install "F:\SteamLibrary\steamapps\common\DOOM 3 BFG Edition"
 ```
 
+安裝時會一併在 `base/autoexec.cfg` 寫入 `com_skipIntroVideos 1`，跳過開頭動畫（法律聲明畫面是引擎寫死的，仍會顯示約 4 秒）。不想跳過就加 `--keep-intro`。
+
 移除：
 
 ```powershell

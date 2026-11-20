@@ -93,6 +93,7 @@ def main():
     ap.add_argument("--font", type=Path, default=DEFAULT_FONT)
     ap.add_argument("--install", type=Path, metavar="GAME_DIR")
     ap.add_argument("--uninstall", type=Path, metavar="GAME_DIR")
+    ap.add_argument("--keep-intro", action="store_true", help="安裝時不跳過開頭動畫")
     a = ap.parse_args()
 
     if a.uninstall:
@@ -106,6 +107,7 @@ def main():
         gen = base / "generated" / "images" / "newfonts" / FONT_NAME
         if gen.exists():
             shutil.rmtree(gen)  # 引擎從 tga 轉出的快取
+        set_autoexec(base, False)
         print("已移除繁中化檔案")
         return
 
@@ -121,7 +123,26 @@ def main():
             dst = base / rel
             dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(BUILD / rel, dst)
+        if not a.keep_intro:
+            set_autoexec(base, True)
         print(f"已安裝到 {base}")
+
+
+SKIP_INTRO_LINE = 'set com_skipIntroVideos "1" // doom3bfg-cht: skip intro video'
+
+
+def set_autoexec(base, enable):
+    """在 base/autoexec.cfg 加上／移除跳過開頭動畫的設定，不動使用者自己寫的其他行。
+    引擎在讀完 autoexec.cfg 之後才檢查 com_skipIntroVideos（Common.cpp）。"""
+    cfg = base / "autoexec.cfg"
+    lines = cfg.read_text(encoding="utf-8").splitlines() if cfg.exists() else []
+    lines = [ln for ln in lines if "com_skipIntroVideos" not in ln]
+    if enable:
+        lines.append(SKIP_INTRO_LINE)
+    if lines:
+        cfg.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    elif cfg.exists():
+        cfg.unlink()
 
 
 if __name__ == "__main__":
