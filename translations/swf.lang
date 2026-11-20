@@ -1,0 +1,9 @@
+// 主選單（SWF 介面）
+{
+	"#str_swf_campaign"	"戰役"
+	"#str_swf_campaign_desc"	"繼續戰役，或開始新的戰役"
+	"#str_swf_continue"	"繼續"
+	"#str_swf_continue_desc"	"從上次存檔的地方繼續"
+	"#str_swf_settings"	"設定"
+	"#str_swf_quit"	"離開遊戲"
+}
