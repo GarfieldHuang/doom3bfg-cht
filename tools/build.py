@@ -68,6 +68,10 @@ def load_translations():
 def build(font_path):
     tr = load_translations()
     tr["#font_*"] = FONT_NAME
+    # english.lang 把舊 GUI 字型導向 Arial_Narrow 等；那些字型可能在語言檔載入前就被登記
+    # （RBDOOM 會），快取裡沒有中文 → 顯示成 *。直接指到中文字型。
+    for k in ("#font_", "#font_an", "#font_arial", "#font_bank", "#font_micro"):
+        tr[k] = FONT_NAME
     if BUILD.exists():
         shutil.rmtree(BUILD)
     (BUILD / "strings").mkdir(parents=True)
