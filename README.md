@@ -44,3 +44,18 @@ python tools/build.py --uninstall "F:\SteamLibrary\steamapps\common\DOOM 3 BFG E
 
 工具程式碼：MIT。字型：Noto Sans TC，SIL Open Font License 1.1。
 DOOM 為 id Software / ZeniMax 的商標，本專案與其無關。
+
+## 對話字幕（選用，需改用 RBDOOM-3-BFG）
+
+原版主程式沒有字幕功能。字幕版用的是加了字幕功能的開源引擎
+[GarfieldHuang/RBDOOM-3-BFG](https://github.com/GarfieldHuang/RBDOOM-3-BFG/tree/subtitles)（`subtitles` 分支，GPLv3）。
+
+- 字幕稿：840 段英文配音用 Qwen3-ASR 轉錄與對時（`tools/vo_extract.py`、`vo_asr.py`、`vo_cues.py`），
+  翻成中文後由 `tools/subs_to_lang.py` 轉成 `translations/subtitles.lang`（key 為 `#sub_sound/vo/...`）。
+- 安裝（另開資料夾，遊戲資料以硬連結共用 Steam 版，不影響原版）：
+
+```powershell
+python tools/install_rbdoom.py "F:\SteamLibrary\steamapps\common\DOOM 3 BFG Edition" "D:\github\RBDOOM-3-BFG" "F:\Games\DOOM3BFG-cht"
+```
+
+- 主控台：`s_subtitles 0/1` 開關，`s_subtitleScale` 調字級。

@@ -36,6 +36,8 @@ def main():
                 print(f"[重複] {where}（也在 {seen[k]}）")
                 problems += 1
             seen[k] = f.name
+            if k.startswith("#sub_"):  # 對話字幕，原版沒有，另由 subs_to_lang.py 檢查
+                continue
             if k not in eng:
                 print(f"[多出] {where}")
                 problems += 1
